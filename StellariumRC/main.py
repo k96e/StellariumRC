@@ -1,18 +1,23 @@
 import requests
 
 class Main:
-    def __init__(self, ip, port):
-        
+    def __init__(self, ip="127.0.0.1", port=8090):
         self.ip = ip
         self.port = port
 
     def getStatus(self):
         r = requests.get(f"http://{self.ip}:{self.port}/api/main/status")
-        return r.json()
+        try:
+            return r.json()
+        except requests.exceptions.JSONDecodeError:
+            raise Exception(r.text)
 
     def getPlugins(self):
         r = requests.get(f"http://{self.ip}:{self.port}/api/main/plugins")
-        return r.json()
+        try:
+            return r.json()
+        except requests.exceptions.JSONDecodeError:
+            raise Exception(r.text)
 
     def getView(self,coord=None,ref=None):
         """
@@ -31,7 +36,10 @@ class Main:
         if ref is not None:
             params["ref"] = ref
         r = requests.get(f"http://{self.ip}:{self.port}/api/main/view", params=params)
-        return r.json()
+        try:
+            return r.json()
+        except requests.exceptions.JSONDecodeError:
+            raise Exception(r.text)
 
     def setTimeJD(self,time):
         """
