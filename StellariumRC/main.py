@@ -33,7 +33,7 @@ class Main:
         r = requests.get(f"http://{self.ip}:{self.port}/api/main/view", params=params)
         return r.json()
 
-    def setTime(self,time):
+    def setTimeJD(self,time):
         """
         Sets the current Stellarium simulation time. The time parameter defines the current time (Julian day) 
         as passed to StelCore::setJD.
@@ -41,10 +41,28 @@ class Main:
         r = requests.post(f"http://{self.ip}:{self.port}/api/main/time", data={"time":time})
         return r
 
-    def setTimeRate(self,timeRate):
+    def setTimeRateJD(self,timeRate):
         """
         Sets the current Stellarium simulation timerate.The timerate parameter allows to change the speed at 
         which the simulation time moves (in JDay/sec) as passed to StelCore::setTimeRate.
+        """
+        r = requests.post(f"http://{self.ip}:{self.port}/api/main/time", data={"timerate":timeRate})
+        return r
+    
+    def setTime(self,dt):
+        """
+        Sets the current Stellarium simulation time. The dt parameter defines the current time as a datetime
+        object in Python standard library.
+        """
+        jd = dt.timestamp() / 86400.0 + 2440587.5
+        r = requests.post(f"http://{self.ip}:{self.port}/api/main/time", data={"time":jd})
+        return r
+
+    def setTimeRate(self,timeRate):
+        """
+        Sets the current Stellarium simulation timerate.The timerate parameter allows to change the speed at
+        which the simulation time moves (in seconds per second). Negative timerates are also allowed, which 
+        means that time moves backwards.
         """
         r = requests.post(f"http://{self.ip}:{self.port}/api/main/time", data={"timerate":timeRate})
         return r
