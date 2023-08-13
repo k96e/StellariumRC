@@ -47,6 +47,8 @@ class Main:
         as passed to StelCore::setJD.
         """
         r = requests.post(f"http://{self.ip}:{self.port}/api/main/time", data={"time":time})
+        if not r.text == 'ok':
+            raise Exception(r.text)
         return r
 
     def setTimeRateJD(self,timeRate):
@@ -55,6 +57,8 @@ class Main:
         which the simulation time moves (in JDay/sec) as passed to StelCore::setTimeRate.
         """
         r = requests.post(f"http://{self.ip}:{self.port}/api/main/time", data={"timerate":timeRate})
+        if not r.text == 'ok':
+            raise Exception(r.text)
         return r
     
     def setTime(self,dt):
@@ -64,6 +68,8 @@ class Main:
         """
         jd = dt.timestamp() / 86400.0 + 2440587.5
         r = requests.post(f"http://{self.ip}:{self.port}/api/main/time", data={"time":jd})
+        if not r.text == 'ok':
+            raise Exception(r.text)
         return r
 
     def setTimeRate(self,timeRate):
@@ -73,6 +79,8 @@ class Main:
         means that time moves backwards.
         """
         r = requests.post(f"http://{self.ip}:{self.port}/api/main/time", data={"timerate":timeRate})
+        if not r.text == 'ok':
+            raise Exception(r.text)
         return r
     
     def setFocus(self,target=None,position=None,mode=None):
@@ -97,6 +105,8 @@ class Main:
         if mode is not None:
             params["mode"] = mode
         r = requests.post(f"http://{self.ip}:{self.port}/api/main/focus", data=params)
+        if not r.text == 'ok':
+            raise Exception(r.text)
         return r
     
     def setMove(self,x,y):
@@ -106,6 +116,8 @@ class Main:
         left).
         """
         r = requests.post(f"http://{self.ip}:{self.port}/api/main/move", data={"x":x,"y":y})
+        if not r.text == 'ok':
+            raise Exception(r.text)
         return r
         
     def setView(self,coord=None,vec=None,az=None,alt=None,ref="auto"):
@@ -128,6 +140,8 @@ class Main:
         else:
             raise ValueError("Either coord and vec or az and alt must be given.")
         r = requests.post(f"http://{self.ip}:{self.port}/api/main/view", data=params)
+        if not r.text == 'ok':
+            raise Exception(r.text)
         return r
     
     def setFov(self,fov):
@@ -135,4 +149,6 @@ class Main:
         Sets the current field of view using StelCore::setFov.
         """
         r = requests.post(f"http://{self.ip}:{self.port}/api/main/fov", data={"fov":fov})
+        if not r.text == 'ok':
+            raise Exception(r.text)
         return r

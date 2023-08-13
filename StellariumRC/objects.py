@@ -5,7 +5,7 @@ class Objects:
         self.ip = ip
         self.port = port
     
-    def find(self, name):
+    def findObject(self, name):
         """
         Finds objects which match the search string str, which may contain greek/unicode 
         characters like in the SearchDialog. Returns a JSON String array of search matches.
