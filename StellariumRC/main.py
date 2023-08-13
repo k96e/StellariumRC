@@ -78,7 +78,7 @@ class Main:
         which the simulation time moves (in seconds per second). Negative timerates are also allowed, which 
         means that time moves backwards.
         """
-        r = requests.post(f"http://{self.ip}:{self.port}/api/main/time", data={"timerate":timeRate})
+        r = requests.post(f"http://{self.ip}:{self.port}/api/main/time", data={"timerate":timeRate/86400.0})
         if not r.text == 'ok':
             raise Exception(r.text)
         return r
@@ -105,7 +105,7 @@ class Main:
         if mode is not None:
             params["mode"] = mode
         r = requests.post(f"http://{self.ip}:{self.port}/api/main/focus", data=params)
-        if not r.text == 'ok':
+        if not r.text == 'true':
             raise Exception(r.text)
         return r
     
