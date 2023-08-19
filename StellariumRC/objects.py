@@ -1,9 +1,10 @@
 import requests
 
 class Objects:
-    def __init__(self, ip="127.0.0.1", port=8090):
+    def __init__(self, ip="127.0.0.1", port=8090, password=""):
         self.ip = ip
         self.port = port
+        self.password = password
     
     def findObject(self, name):
         """
@@ -11,7 +12,7 @@ class Objects:
         characters like in the SearchDialog. Returns a JSON String array of search matches.
         """
         r = requests.get(f"http://{self.ip}:{self.port}/api/objects/find",
-                         params={"str":name})
+                         params={"str":name},auth=("",self.password))
         try:
             return r.json()
         except requests.exceptions.JSONDecodeError:
@@ -26,7 +27,7 @@ class Objects:
         if name is not None:
             params["name"] = name
         r = requests.get(f"http://{self.ip}:{self.port}/api/objects/info",
-                         params=params)
+                         params=params,auth=("",self.password))
         if format == "json":
             try:
                 return r.json()
@@ -40,7 +41,8 @@ class Objects:
         Returns all object types available in the internal catalogs as a JSON array of 
         objects of format.
         """
-        r = requests.get(f"http://{self.ip}:{self.port}/api/objects/listobjecttypes")
+        r = requests.get(f"http://{self.ip}:{self.port}/api/objects/listobjecttypes"
+                         ,auth=("",self.password))
         try:
             return r.json()
         except requests.exceptions.JSONDecodeError:
@@ -53,7 +55,8 @@ class Objects:
         string array.
         """
         r = requests.get(f"http://{self.ip}:{self.port}/api/objects/listobjectsbytype",
-                         params={"type":type,"english":1 if english else 0})
+                         params={"type":type,"english":1 if english else 0},
+                         auth=("",self.password))
         try:
             return r.json()
         except requests.exceptions.JSONDecodeError:

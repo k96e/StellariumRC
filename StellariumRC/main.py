@@ -1,19 +1,20 @@
 import requests
 
 class Main:
-    def __init__(self, ip="127.0.0.1", port=8090):
+    def __init__(self, ip="127.0.0.1", port=8090, password=""):
         self.ip = ip
         self.port = port
+        self.password = password
 
     def getStatus(self):
-        r = requests.get(f"http://{self.ip}:{self.port}/api/main/status")
+        r = requests.get(f"http://{self.ip}:{self.port}/api/main/status",auth=("",self.password))
         try:
             return r.json()
         except requests.exceptions.JSONDecodeError:
             raise Exception(r.text)
 
     def getPlugins(self):
-        r = requests.get(f"http://{self.ip}:{self.port}/api/main/plugins")
+        r = requests.get(f"http://{self.ip}:{self.port}/api/main/plugins",auth=("",self.password))
         try:
             return r.json()
         except requests.exceptions.JSONDecodeError:
@@ -35,7 +36,8 @@ class Main:
             params["coord"] = coord
         if ref is not None:
             params["ref"] = ref
-        r = requests.get(f"http://{self.ip}:{self.port}/api/main/view", params=params)
+        r = requests.get(f"http://{self.ip}:{self.port}/api/main/view", 
+                         params=params,auth=("",self.password))
         try:
             return r.json()
         except requests.exceptions.JSONDecodeError:
@@ -46,7 +48,8 @@ class Main:
         Sets the current Stellarium simulation time. The time parameter defines the current time (Julian day) 
         as passed to StelCore::setJD.
         """
-        r = requests.post(f"http://{self.ip}:{self.port}/api/main/time", data={"time":time})
+        r = requests.post(f"http://{self.ip}:{self.port}/api/main/time", 
+                          data={"time":time},auth=("",self.password))
         if not r.text == 'ok':
             raise Exception(r.text)
         return r
@@ -56,7 +59,8 @@ class Main:
         Sets the current Stellarium simulation timerate.The timerate parameter allows to change the speed at 
         which the simulation time moves (in JDay/sec) as passed to StelCore::setTimeRate.
         """
-        r = requests.post(f"http://{self.ip}:{self.port}/api/main/time", data={"timerate":timeRate})
+        r = requests.post(f"http://{self.ip}:{self.port}/api/main/time", 
+                          data={"timerate":timeRate},auth=("",self.password))
         if not r.text == 'ok':
             raise Exception(r.text)
         return r
@@ -67,7 +71,8 @@ class Main:
         object in Python standard library.
         """
         jd = dt.timestamp() / 86400.0 + 2440587.5
-        r = requests.post(f"http://{self.ip}:{self.port}/api/main/time", data={"time":jd})
+        r = requests.post(f"http://{self.ip}:{self.port}/api/main/time", 
+                          data={"time":jd},auth=("",self.password))
         if not r.text == 'ok':
             raise Exception(r.text)
         return r
@@ -78,7 +83,8 @@ class Main:
         which the simulation time moves (in seconds per second). Negative timerates are also allowed, which 
         means that time moves backwards.
         """
-        r = requests.post(f"http://{self.ip}:{self.port}/api/main/time", data={"timerate":timeRate/86400.0})
+        r = requests.post(f"http://{self.ip}:{self.port}/api/main/time", 
+                          data={"timerate":timeRate/86400.0},auth=("",self.password))
         if not r.text == 'ok':
             raise Exception(r.text)
         return r
@@ -104,7 +110,8 @@ class Main:
             params["position"] = position
         if mode is not None:
             params["mode"] = mode
-        r = requests.post(f"http://{self.ip}:{self.port}/api/main/focus", data=params)
+        r = requests.post(f"http://{self.ip}:{self.port}/api/main/focus", 
+                          data=params,auth=("",self.password))
         if not r.text == 'true':
             raise Exception(r.text)
         return r
@@ -115,7 +122,8 @@ class Main:
         move direction. x and y define the intended move speed in azimuth and altitude (i.e. a negative x means 
         left).
         """
-        r = requests.post(f"http://{self.ip}:{self.port}/api/main/move", data={"x":x,"y":y})
+        r = requests.post(f"http://{self.ip}:{self.port}/api/main/move", 
+                          data={"x":x,"y":y},auth=("",self.password))
         if not r.text == 'ok':
             raise Exception(r.text)
         return r
@@ -139,7 +147,8 @@ class Main:
             params["alt"] = alt
         else:
             raise ValueError("Either coord and vec or az and alt must be given.")
-        r = requests.post(f"http://{self.ip}:{self.port}/api/main/view", data=params)
+        r = requests.post(f"http://{self.ip}:{self.port}/api/main/view", 
+                          data=params,auth=("",self.password))
         if not r.text == 'ok':
             raise Exception(r.text)
         return r
@@ -148,7 +157,8 @@ class Main:
         """
         Sets the current field of view using StelCore::setFov.
         """
-        r = requests.post(f"http://{self.ip}:{self.port}/api/main/fov", data={"fov":fov})
+        r = requests.post(f"http://{self.ip}:{self.port}/api/main/fov", 
+                          data={"fov":fov},auth=("",self.password))
         if not r.text == 'ok':
             raise Exception(r.text)
         return r

@@ -1,15 +1,17 @@
 import requests
 
 class Scripts:
-    def __init__(self, ip="127.0.0.1", port=8090):
+    def __init__(self, ip="127.0.0.1", port=8090, password=""):
         self.ip = ip
         self.port = port
+        self.password = password
         
     def listScripts(self):
         """
         Lists all known script files, as a JSON string array.
         """
-        r = requests.get(f"http://{self.ip}:{self.port}/api/scripts/list")
+        r = requests.get(f"http://{self.ip}:{self.port}/api/scripts/list",
+                         auth=("",self.password))
         try:
             return r.json()
         except requests.exceptions.JSONDecodeError:
@@ -25,7 +27,7 @@ class Scripts:
         if html:
             params["html"] = 1
         r = requests.get(f"http://{self.ip}:{self.port}/api/scripts/info",
-                         params=params)
+                         params=params,auth=("",self.password))
         try:
             if not html:
                 return r.json()
@@ -38,7 +40,8 @@ class Scripts:
         """
         Returns the current script status as a JSON object.
         """
-        r = requests.get(f"http://{self.ip}:{self.port}/api/scripts/status")
+        r = requests.get(f"http://{self.ip}:{self.port}/api/scripts/status"
+                         ,auth=("",self.password))
         try:
             return r.json()
         except requests.exceptions.JSONDecodeError:
@@ -49,7 +52,7 @@ class Scripts:
         Runs the script with the given id. Will fail if a script is currently running.
         """
         r = requests.post(f"http://{self.ip}:{self.port}/api/scripts/run",
-                         data={"id":id})
+                         data={"id":id},auth=("",self.password))
         if not r.text == 'ok':
             raise Exception(r.text)
         return r
@@ -61,7 +64,8 @@ class Scripts:
         already running.
         """
         r = requests.post(f"http://{self.ip}:{self.port}/api/scripts/direct",
-                         data={"code":code,"useIncludes":useIncludes})
+                         data={"code":code,"useIncludes":useIncludes},
+                         auth=("",self.password))
         if not r.text == 'ok':
             raise Exception(r.text)
         return r
@@ -70,7 +74,8 @@ class Scripts:
         """
         Stops the execution of a running script.
         """
-        r = requests.post(f"http://{self.ip}:{self.port}/api/scripts/stop")
+        r = requests.post(f"http://{self.ip}:{self.port}/api/scripts/stop",
+                          auth=("",self.password))
         if not r.text == 'ok':
             raise Exception(r.text)
         return r
