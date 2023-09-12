@@ -6,3 +6,6 @@ Currently available services:
 - MainService
 - ObjectService
 - ScriptService
+- SimbadService
+- StelActionService
+- StelPropertyService
