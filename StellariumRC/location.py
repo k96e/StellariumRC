@@ -72,7 +72,7 @@ class Location:
             if not planet == None: params["planet"] = planet
         r = requests.post(f"http://{self.ip}:{self.port}/api/location/setlocationfields",
                          params=params,auth=("",self.password))
-        if r.status_code == 200:
-            return r.text
-        else:
+        if not r.text == "ok":
             raise Exception(r.text)
+        else:
+            return r
