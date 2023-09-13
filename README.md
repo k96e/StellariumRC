@@ -9,3 +9,4 @@ Currently available services:
 - SimbadService
 - StelActionService
 - StelPropertyService
+- LocationService
