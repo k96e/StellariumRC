@@ -1,8 +1,8 @@
 # StellariumRC
 Control Stellarium by Python
 
-The repository is under development and is currently incomplete.
-Currently available services:
+The document is currently being edited. 
+All services are already available:
 - MainService
 - ObjectService
 - ScriptService
@@ -10,3 +10,5 @@ Currently available services:
 - StelActionService
 - StelPropertyService
 - LocationService
+- LocationSearchService
+- ViewService
