@@ -14,9 +14,9 @@ pip install stellariumrc
 ## Usage
 Before starting, please make sure that Stellarium is running and the RemoteControl plugin is enabled.
 ```python
-from stellariumrc import StellariumRC
+import StellariumRC
 
-s = StellariumRC() # you can pass the host, port and password (if any) as parameters
+s = StellariumRC.Stellarium() # you can pass the host, port and password (if any) as parameters
 print(s.main.getStatus()) # get the current state of Stellarium
 s.main.setFocus(target='moon',mode='zoom') # focus on moon and auto zoom-in
 print(s.objects.getInfo('moon')) # get info about moon
