@@ -5,11 +5,11 @@ from setuptools import setup, find_packages
 
 setup(
     name='StellariumRC',
-    version='0.1',
+    version='0.2',
     description=(
         'Control Stellarium by Python'
     ),
-    long_description_content_type="markdown",
+    long_description_content_type="text/markdown",
     long_description=open('README.md').read(),
     author='k96e',
     author_email='zy1835562526@gmail.com',

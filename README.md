@@ -1,6 +1,6 @@
 # StellariumRC
 
-###Control Stellarium by Python
+### Control Stellarium by Python
 
 ## Installation
 ```bash
